@@ -1,0 +1,14 @@
+# ignore binary (no extension) files
+*
+!*.*
+!*/
+
+# ignore reference file
+usingabritaryhold.py
+
+# ignore extra sfinder files
+test/output/error.txt
+test/output/last_output.txt
+
+# ignore vsc related files
+.vscode
