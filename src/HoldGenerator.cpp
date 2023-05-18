@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <string>
+#include <unordered_set>
 #include "HoldGenerator.hpp"
 
 void HoldGenerator::generatePermutations(){
@@ -14,20 +15,19 @@ void HoldGenerator::generateInversePermutations(){
     std::reverse(currQueue.begin(), currQueue.end());
     permutations.clear();
 
-    permutationHelper(currQueue);
-
-    for(unsigned int i = 0; i < permutations.size(); i++){
-        std::reverse(permutations.at(i).begin(), permutations.at(i).end());
-    }
+    permutationHelper(currQueue, "", true);
 }
 
 bool HoldGenerator::contains(std::string queue){
-    return std::find(permutations.begin(), permutations.end(), queue) != permutations.end();
+    return permutations.find(queue) != permutations.end();
 }
 
-void HoldGenerator::permutationHelper(std::string queue, std::string prefix){
+void HoldGenerator::permutationHelper(std::string queue, std::string prefix, bool reverse){
     if(queue.empty()){
-        permutations.push_back(prefix);
+        if(reverse){
+            std::reverse(prefix.begin(), prefix.end());
+        }
+        permutations.insert(prefix);
     } else {
         unsigned int shiftedHold = this->hold + 1;
         if(shiftedHold > queue.length()){
@@ -35,7 +35,7 @@ void HoldGenerator::permutationHelper(std::string queue, std::string prefix){
         }
 
         for(unsigned int offset = 0; offset < shiftedHold; offset++){
-            permutationHelper(queue.substr(0, offset) + queue.substr(offset + 1), prefix + queue.at(offset));
+            permutationHelper(queue.substr(0, offset) + queue.substr(offset + 1), prefix + queue.at(offset), reverse);
         }
     }
 }

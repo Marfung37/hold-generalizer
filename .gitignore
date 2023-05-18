@@ -7,8 +7,13 @@
 usingabritaryhold.py
 
 # ignore extra sfinder files
-test/output/error.txt
-test/output/last_output.txt
+*/output/error.txt
+*/output/last_output.txt
+/src/input
+/src/output
 
 # ignore vsc related files
 .vscode
+
+# ignore extra script for removing binaries created
+rmbins.sh
