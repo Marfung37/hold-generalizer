@@ -15,5 +15,6 @@ usingabritaryhold.py
 # ignore vsc related files
 .vscode
 
-# ignore extra script for removing binaries created
+# ignore extra script for creating/removing binaries created
+mkbins.sh
 rmbins.sh

@@ -2,7 +2,6 @@
 #include <fstream>
 #include <unordered_set>
 #include <filesystem>
-#include <iostream>
 
 #include "CreateFile.hpp"
 #include "SfinderFile.hpp"
@@ -71,4 +70,8 @@ void CreateFile::applyHoldPermutationOnPatternsFile(){
     }
 
     outPatternsStream.close();
+}
+
+void CreateFile::readdPieceSuffixes(){
+
 }

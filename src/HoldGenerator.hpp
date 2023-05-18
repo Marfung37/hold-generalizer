@@ -11,7 +11,9 @@ class HoldGenerator{
         
         void generatePermutations();
         void generateInversePermutations();
-        bool contains(std::string queue);
+        bool permutationContains(std::string givenQueue);
+        bool inversePermutationContains(std::string givenQueue);
+        bool contains(std::string givenQueue);
 
         std::unordered_set<std::string> getPermutations() const {return permutations;}
         void clearPermutations() {permutations.clear();}
@@ -21,6 +23,7 @@ class HoldGenerator{
 
     private:
         void permutationHelper(std::string queue, std::string prefix="", bool reverse=false);
+        bool permutationContainsHelper(std::string queue, std::string givenQueue);
 
         std::string queue;
         unsigned int hold;

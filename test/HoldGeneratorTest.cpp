@@ -69,4 +69,39 @@ int main(){
     for(std::string permutation: knownPermutations4){
         IS_TRUE(queues.contains(permutation));
     }
+
+    // testing contains
+    queues.setQueue("JIITS");
+    queues.setHold(1);
+    IS_TRUE(queues.permutationContains("IJTSI"));
+    IS_TRUE(!queues.permutationContains("ITIJS"));
+    IS_TRUE(queues.permutationContains("IITSJ"));
+    IS_TRUE(queues.permutationContains("JIITS"));
+
+    queues.setHold(2);
+    IS_TRUE(queues.permutationContains("IJTSI"));
+    IS_TRUE(queues.permutationContains("ITIJS"));
+    IS_TRUE(queues.permutationContains("IITSJ"));
+    IS_TRUE(queues.permutationContains("JIITS"));
+    IS_TRUE(queues.permutationContains("ITJSI"));
+    IS_TRUE(queues.permutationContains("ITSJI"));
+    IS_TRUE(queues.permutationContains("JISIT"));
+    IS_TRUE(!queues.permutationContains("TIIJS"));
+
+    queues.setQueue("JLITI");
+    queues.setHold(1);
+    IS_TRUE(queues.inversePermutationContains("IJLTI"));
+    IS_TRUE(queues.inversePermutationContains("JLITI"));
+    IS_TRUE(queues.inversePermutationContains("JLITI"));
+    IS_TRUE(!queues.inversePermutationContains("ITJLI"));
+    IS_TRUE(!queues.inversePermutationContains("IJITL"));
+
+    queues.setHold(2);
+    IS_TRUE(queues.inversePermutationContains("IJLTI"));
+    IS_TRUE(queues.inversePermutationContains("JLITI"));
+    IS_TRUE(queues.inversePermutationContains("JLITI"));
+    IS_TRUE(queues.inversePermutationContains("ITJLI"));
+    IS_TRUE(!queues.inversePermutationContains("IJITL"));
+    IS_TRUE(!queues.inversePermutationContains("TIIJL"));
+    IS_TRUE(queues.inversePermutationContains("LIJIT"));
 }

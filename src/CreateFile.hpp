@@ -11,6 +11,7 @@ class CreateFile{
         void runSfinderCommand();
     private:
         void applyHoldPermutationOnPatternsFile();
+        void readdPieceSuffixes();
 
         CLIParser::values args;
 };
