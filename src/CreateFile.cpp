@@ -1,6 +1,8 @@
 #include <string>
+#include <vector>
 #include <fstream>
 #include <unordered_set>
+#include <unordered_map>
 #include <filesystem>
 
 #include "CreateFile.hpp"
@@ -8,6 +10,8 @@
 #include "HoldGenerator.hpp"
 
 namespace fs = std::filesystem;
+
+CreateFile::CreateFile(CLIParser::values args) : args(args), sfinderFile(args.filepath.string(), args.command){}
 
 void CreateFile::runSfinderCommand(){
     std::string commandStr = "java -jar " + args.sfinderFile.string() + " " + args.command + " -H avoid";
@@ -38,11 +42,19 @@ void CreateFile::runSfinderCommand(){
     commandStr += " -o " + args.filepath.string();
 
     // suppress output
-    commandStr += " > " + (fs::path("output") / "last_output.txt").string();
+    commandStr += " > " + logPath.string();
 
     applyHoldPermutationOnPatternsFile();
 
     std::system(commandStr.c_str());
+
+    sfinderFile.parseFile();
+
+    if(args.command == "path"){
+        readdPieceSuffixes();
+    }
+
+    sfinderFile.writeFile(); // DEBUG
 }
 
 void CreateFile::applyHoldPermutationOnPatternsFile(){
@@ -73,5 +85,65 @@ void CreateFile::applyHoldPermutationOnPatternsFile(){
 }
 
 void CreateFile::readdPieceSuffixes(){
+    SUFFIX_MAP suffixesMap;
+    std::vector<std::string> suffixes;
+    unsigned int neededPieces = 0;
 
+    // determine neededPieces
+    neededPieces = sfinderFile.fileData.at(0).queue.size();
+
+    suffixesMap = getQueueSuffixes(neededPieces);
+
+    // if there's no suffixes just return
+    if(suffixesMap.empty()){
+        return;
+    }
+    
+    for(SfinderFile::columns& line: sfinderFile.fileData) {
+        suffixes = suffixesMap.at(line.queue);
+        line.queue += suffixes.back();
+
+        if(args.command == "path"){
+            // add to saves if there is a solve
+            if(line.worked){
+                line.piecesSaved += suffixes.back();
+            }
+        }
+
+        suffixes.pop_back();
+    }
 }
+
+SUFFIX_MAP CreateFile::getQueueSuffixes(unsigned int neededPieces){
+    SUFFIX_MAP suffixesMap;
+    std::ifstream inPatternsStream(args.patternsFile.string());
+    std::string queue;
+
+    if(!inPatternsStream.is_open()){
+        throw new std::runtime_error("Unable to open necessary files for readdPieceSuffixes");
+    }
+
+    inPatternsStream >> queue;
+    // check if there's going to be any suffixes
+    if(queue.size() == neededPieces){
+        return suffixesMap;
+    }
+
+    do{
+        // if the prefix already within the map
+        std::string prefix = queue.substr(0, neededPieces);
+        std::string suffix = queue.substr(neededPieces);
+        
+        if(suffixesMap.find(prefix) != suffixesMap.end()){
+            suffixesMap.at(prefix).push_back(suffix);
+        } else {
+            std::vector<std::string> suffixesVector = {suffix};
+            suffixesMap.insert({prefix, suffixesVector});
+        }
+    } while(inPatternsStream >> queue);
+
+    inPatternsStream.close();
+
+    return suffixesMap;
+}
+

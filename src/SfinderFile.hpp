@@ -8,21 +8,32 @@
 class SfinderFile{
     public:
         SfinderFile(std::string filename, std::string sfinderFiletype);
-        ~SfinderFile();
 
-        std::vector<std::string> getQueues() {return queues;}
-        std::vector<bool> getBools() {return queueBools;}
+        void parseFile();
+        void writeFile();
+
+        struct columns{
+            columns() : queue(), numSolves(0), piecesUsed(), piecesSaved(), solveFumens(), worked(false) {}
+
+            std::string queue;
+            unsigned int numSolves;
+            std::string piecesUsed;
+            std::string piecesSaved;
+            std::string solveFumens;
+            bool worked;
+        };
+
+        std::vector<columns> fileData;
 
     private:
         void parsePathFile();
         void parseCoverFile();
+        void writePathFile();
+        void writeCoverFile();
 
         std::string filename;
         std::string sfinderFiletype;
-        std::ifstream inFS;
-
-        std::vector<std::string> queues;
-        std::vector<bool> queueBools;
+        std::string headerLine;
 };
 
 #endif
