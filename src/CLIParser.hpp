@@ -17,10 +17,12 @@ class CLIParser{
             fs::path sfinderFile;
             fs::path fieldFile;
             fs::path patternsFile;
+            fs::path patternsPermutateFile;
             std::string command;
             unsigned int hold;
             std::string tetfu;
             std::string patterns;
+            bool manualPermutate;
             std::string additionalSfinderOptions;
         };
 

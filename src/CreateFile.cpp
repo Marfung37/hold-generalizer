@@ -3,11 +3,13 @@
 #include <fstream>
 #include <unordered_set>
 #include <unordered_map>
-#include <filesystem>
+#include <filesystem> 
+//#include <iostream> // DEBUG
 
 #include "CreateFile.hpp"
 #include "SfinderFile.hpp"
 #include "HoldGenerator.hpp"
+//#include "../lib/Timer.hpp" // DEBUG
 
 namespace fs = std::filesystem;
 
@@ -38,13 +40,15 @@ void CreateFile::runSfinderCommand(){
         commandStr += " " + args.additionalSfinderOptions;
     }
     
-    commandStr += " -pp " + args.patternsFile.string();
+    commandStr += " -pp " + args.patternsPermutateFile.string();
     commandStr += " -o " + args.filepath.string();
 
     // suppress output
     commandStr += " > " + logPath.string();
 
-    applyHoldPermutationOnPatternsFile();
+    if(!args.manualPermutate){
+        applyHoldPermutationOnPatternsFile();
+    }
 
     std::system(commandStr.c_str());
 
@@ -75,13 +79,13 @@ void CreateFile::applyHoldPermutationOnPatternsFile(){
     }
 
     inPatternsStream.close();
-    std::ofstream outPatternsStream(args.patternsFile.string());
+    std::ofstream outPatternsPermutateStream(args.patternsPermutateFile.string());
 
     for(auto it = holdPermutationQueues.begin(); it != holdPermutationQueues.end(); it++){
-        outPatternsStream << *it << std::endl;
+        outPatternsPermutateStream << *it << std::endl;
     }
 
-    outPatternsStream.close();
+    outPatternsPermutateStream.close();
 }
 
 void CreateFile::readdPieceSuffixes(){
@@ -116,14 +120,14 @@ void CreateFile::readdPieceSuffixes(){
 
 SUFFIX_MAP CreateFile::getQueueSuffixes(unsigned int neededPieces){
     SUFFIX_MAP suffixesMap;
-    std::ifstream inPatternsStream(args.patternsFile.string());
+    std::ifstream inPatternsPermutateStream(args.patternsPermutateFile.string());
     std::string queue;
 
-    if(!inPatternsStream.is_open()){
+    if(!inPatternsPermutateStream.is_open()){
         throw new std::runtime_error("Unable to open necessary files for readdPieceSuffixes");
     }
 
-    inPatternsStream >> queue;
+    inPatternsPermutateStream >> queue;
     // check if there's going to be any suffixes
     if(queue.size() == neededPieces){
         return suffixesMap;
@@ -140,9 +144,9 @@ SUFFIX_MAP CreateFile::getQueueSuffixes(unsigned int neededPieces){
             std::vector<std::string> suffixesVector = {suffix};
             suffixesMap.insert({prefix, suffixesVector});
         }
-    } while(inPatternsStream >> queue);
+    } while(inPatternsPermutateStream >> queue);
 
-    inPatternsStream.close();
+    inPatternsPermutateStream.close();
 
     return suffixesMap;
 }
