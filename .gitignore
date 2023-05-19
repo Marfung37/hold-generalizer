@@ -3,9 +3,6 @@
 !*.*
 !*/
 
-# ignore reference file
-usingabritaryhold.py
-
 # ignore extra sfinder files
 */output/error.txt
 */output/last_output.txt

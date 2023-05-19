@@ -4,12 +4,14 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 class SfinderFile{
     public:
         SfinderFile(std::string filename, std::string sfinderFiletype);
 
         void parseFile();
+        void createMap();
         void writeFile();
 
         struct columns{
@@ -24,6 +26,7 @@ class SfinderFile{
         };
 
         std::vector<columns> fileData;
+        std::unordered_map<std::string, columns> fileMap;
 
     private:
         void parsePathFile();

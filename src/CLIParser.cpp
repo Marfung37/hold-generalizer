@@ -26,7 +26,7 @@ CLIParser::CLIParser() : app{"Create n-hold files from no hold file"}, args{}{
 int CLIParser::parse(int argc, char* argv[]){
     CLI11_PARSE(app, argc, argv);
 
-    args.filepath = fs::path("output") / ("nohold_" + args.command + ".csv");
+    args.filepath = fs::path("output") / ("multihold_" + args.command + ".csv");
 
     return 0;
 }
@@ -38,7 +38,8 @@ void CLIParser::setupParser(){
     app.add_option("-c, --command", args.command, "command to run sfinder with (path or cover)")
         ->required();
     app.add_option("--hold", args.hold, "number of hold")
-        ->required();
+        ->required()
+        ->check(CLI::Range(0, 10));
     app.add_option("--fp, --field-path", args.fieldFile, "file path to field file")
         ->check(CLI::ExistingFile)
         ->default_str(args.fieldFile.string());
@@ -51,7 +52,8 @@ void CLIParser::setupParser(){
     app.add_option("-t, --tetfu", args.tetfu, "fumen(s) for sfinder command");
     app.add_option("-p, --patterns", args.patterns, "pieces for sfinder command");
     app.add_flag("--mp, --manual-permutate", args.manualPermutate, "permutated patterns has been already created");
-    app.add_option("--of, --output-file", args.filepath, "output filepath of command");
+    app.add_option("--of, --output-file", args.filepath, "output filepath of command")
+        ->default_str(fs::path("output") / "multihold_{command}.csv");
     app.add_option("-a, --additional", args.additionalSfinderOptions, "other sfinder options to include in command");
 }
 

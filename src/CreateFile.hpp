@@ -16,15 +16,21 @@ class CreateFile{
     public:
         CreateFile(CLIParser::values args);
     
-        void runSfinderCommand();
+        void createFile();
+        void printData();
     private:
+        std::string generateCommand();
         void applyHoldPermutationOnPatternsFile();
         void readdPieceSuffixes();
         SUFFIX_MAP getQueueSuffixes(unsigned int neededPieces);
+        void applyHoldOnSfinderFile();
+        bool addDataFromPermCols(SfinderFile::columns& columnData, SfinderFile::columns permCol);
 
         CLIParser::values args;
         SfinderFile sfinderFile;
         const fs::path logPath = fs::path("output") / "last_output.txt";
+        unsigned int workedCount;
+        unsigned int totalCount;
 
 };
 

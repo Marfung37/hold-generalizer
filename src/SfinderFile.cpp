@@ -2,10 +2,10 @@
 #include <filesystem>
 #include <string>
 #include <sstream>
-#include <iostream>
+#include <unordered_map>
 #include "SfinderFile.hpp"
 
-SfinderFile::SfinderFile(std::string filename, std::string sfinderFiletype) : fileData{}, filename(filename), sfinderFiletype(sfinderFiletype), headerLine() {}
+SfinderFile::SfinderFile(std::string filename, std::string sfinderFiletype) : fileData{}, fileMap{}, filename(filename), sfinderFiletype(sfinderFiletype), headerLine() {}
 
 void SfinderFile::parseFile(){
     if(sfinderFiletype == "path"){
@@ -29,12 +29,12 @@ void SfinderFile::writeFile(){
 }
 
 void SfinderFile::parsePathFile(){
-    std::istringstream inSS;
+    std::istringstream inColsSS;
+    std::istringstream inCurrColSS;
     std::string line;
     std::ifstream inFS(filename);
     
     if(!inFS.is_open()){
-        std::cout << filename << std::endl;
         throw new std::invalid_argument(filename + " couldn't be opened!");
     }
 
@@ -42,21 +42,21 @@ void SfinderFile::parsePathFile(){
     headerLine = line;
 
     while(std::getline(inFS, line)){
-        inSS.clear();
-        inSS.str(line);
+        inColsSS.clear();
+        inColsSS.str(line);
 
         columns data;
 
-        if(!(std::getline(inSS, data.queue, ','))) break; // line is empty
+        if(!(std::getline(inColsSS, data.queue, ','))) break; // line is empty
 
         std::string numSolvesStr;
-        std::getline(inSS, numSolvesStr, ',');
+        std::getline(inColsSS, numSolvesStr, ',');
         data.numSolves = atoi(numSolvesStr.c_str());
         data.worked = data.numSolves != 0;
 
-        std::getline(inSS, data.piecesUsed, ',');
-        std::getline(inSS, data.piecesSaved, ',');
-        std::getline(inSS, data.solveFumens, ',');
+        std::getline(inColsSS, data.piecesUsed, ',');
+        std::getline(inColsSS, data.piecesSaved, ',');
+        std::getline(inColsSS, data.solveFumens, ',');
 
         fileData.push_back(data);
     }
@@ -70,7 +70,6 @@ void SfinderFile::parseCoverFile(){
     std::ifstream inFS(filename);
     
     if(!inFS.is_open()){
-        std::cout << filename << std::endl;
         throw new std::invalid_argument(filename + " couldn't be opened!");
     }
 
@@ -102,8 +101,15 @@ void SfinderFile::parseCoverFile(){
         data.worked = success;
 
         fileData.push_back(data);
+        fileMap.insert({data.queue, data});
     }
     inFS.close();
+}
+
+void SfinderFile::createMap(){
+    for(columns& data: fileData){
+        fileMap.insert({data.queue, data});
+    }
 }
 
 void SfinderFile::writePathFile(){
@@ -113,7 +119,7 @@ void SfinderFile::writePathFile(){
     
     for(SfinderFile::columns& line: fileData){
         std::string lineStr = "";
-
+        
         lineStr += line.queue + ",";
         lineStr += std::to_string(line.numSolves) + ",";
         lineStr += line.piecesUsed + ",";
