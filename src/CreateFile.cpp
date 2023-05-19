@@ -49,7 +49,12 @@ std::string CreateFile::generateCommand(){
     }
 
     if(!args.tetfu.empty()){
-        commandStr += " -t " + args.tetfu;
+        commandStr += " -t ";
+        #ifdef _WIN32
+        commandStr += "\"" + args.tetfu + "\"";
+        #else
+        commandStr += args.tetfu;
+        #endif
     } else {
         commandStr += " -fp " + args.fieldFile.string();
     }
@@ -60,7 +65,12 @@ std::string CreateFile::generateCommand(){
             fs::create_directories(parentPatterns);
         }
 
-        std::system(("java -jar " + args.sfinderFile.string() + " util seq -p " + args.patterns + " > " + args.patternsFile.string()).c_str());
+        std::string osPatterns = args.patterns;
+        #ifdef _WIN32
+        osPatterns = "\"" + osPatterns + "\"";
+        #endif
+
+        std::system(("java -jar " + args.sfinderFile.string() + " util seq -p " + osPatterns + " > " + args.patternsFile.string()).c_str());
     }
     if(!args.additionalSfinderOptions.empty()){
         commandStr += " " + args.additionalSfinderOptions;
@@ -70,11 +80,11 @@ std::string CreateFile::generateCommand(){
     commandStr += " -o " + args.filepath.string();
 
     // suppress output
-    fs::path parentLog = logPath.parent_path();
-    if(!fs::is_directory(parentLog) || !fs::exists(parentLog)){
-        fs::create_directories(parentLog);
-    }
-    commandStr += " > " + logPath.string();
+    #ifdef _WIN32
+    commandStr += " > NUL";
+    #else
+    commandStr += " > /dev/null";
+    #endif
 
     return commandStr;
 }

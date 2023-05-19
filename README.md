@@ -4,7 +4,7 @@ Handle the creation of n-hold files from no hold
 
 ## Command Format
 
-Windows `multihold.exe [options]`  
+Windows `.\multihold.exe [options]`  
 Mac/Linux `./multihold [options]`
 
 ## Options
