@@ -9,8 +9,8 @@ Mac/Linux `./multihold [options]`
 
 ## Options
 
-  `-h,--help`                   - Print this help message and exit  
-  `--sf,--sfinder-file` [sfinder.jar] REQUIRED  - File path to a sfinder.jar file  
+  `-h,--help` - Print this help message and exit  
+  `--sf,--sfinder-file` REQUIRED  - File path to a sfinder.jar file  
   `-c,--command` REQUIRED  command to run sfinder with (path or cover)  
   `--hold` REQUIRED - number of hold  
   `--fp,--field-path` [input/field.txt] - file path to field file  

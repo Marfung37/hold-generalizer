@@ -11,7 +11,3 @@
 
 # ignore vsc related files
 .vscode
-
-# ignore extra script for creating/removing binaries created
-mkbins.sh
-rmbins.sh

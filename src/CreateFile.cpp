@@ -70,6 +70,10 @@ std::string CreateFile::generateCommand(){
     commandStr += " -o " + args.filepath.string();
 
     // suppress output
+    fs::path parentLog = logPath.parent_path();
+    if(!fs::is_directory(parentLog) || !fs::exists(parentLog)){
+        fs::create_directories(parentLog);
+    }
     commandStr += " > " + logPath.string();
 
     return commandStr;

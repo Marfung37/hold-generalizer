@@ -9,11 +9,9 @@ using std::cout, std::endl;
 int main(int argc, char* argv[]){
     CLIParser cli;
 
-    int errorCode = cli.parse(argc, argv);
-    if(errorCode){
-        return errorCode;
-    }
-
+    CLI11_PARSE(cli.app, argc, argv);
+    cli.afterParse();
+    
     CLIParser::values args = cli.args;
 
     cout << "filepath: "        << args.filepath << endl;
