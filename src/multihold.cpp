@@ -2,15 +2,14 @@
 #include "CLIParser.hpp"
 #include "CreateFile.hpp"
 
+#include <iostream>
+
 int main(int argc, char* argv[]){
     CLIParser cli;
-    int errorCode = cli.parse(argc, argv);
-    if(errorCode){
-        return errorCode;
-    }
+    CLI11_PARSE(cli.app, argc, argv);
+    cli.afterParse();
 
     CreateFile fileCreater(cli.args);
-
     fileCreater.createFile();
     fileCreater.printData();
 

@@ -23,18 +23,15 @@ CLIParser::CLIParser() : app{"Create n-hold files from no hold file"}, args{}{
     
 }
 
-int CLIParser::parse(int argc, char* argv[]){
-    CLI11_PARSE(app, argc, argv);
-
+void CLIParser::afterParse(){
     args.filepath = fs::path("output") / ("multihold_" + args.command + ".csv");
-
-    return 0;
 }
 
 void CLIParser::setupParser(){
     app.add_option("--sf, --sfinder-file", args.sfinderFile, "File path to a sfinder.jar file")
         ->required()
-        ->check(CLI::ExistingFile);
+        ->check(CLI::ExistingFile)
+        ->default_str(args.sfinderFile.string());
     app.add_option("-c, --command", args.command, "command to run sfinder with (path or cover)")
         ->required();
     app.add_option("--hold", args.hold, "number of hold")

@@ -10,7 +10,7 @@ namespace fs = std::filesystem;
 class CLIParser{
     public:
         CLIParser();
-        int parse(int argc, char* argv[]);
+        void afterParse();
         
         struct values{
             fs::path filepath; // the resulting filename after command
