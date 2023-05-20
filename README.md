@@ -7,6 +7,16 @@ Handle the creation of n-hold files from no hold
 Windows `.\multihold.exe [options]`  
 Mac/Linux `./multihold [options]`
 
+Example:
+
+```powershell
+.\multihold.exe --sf path\to\sfinder.jar -c path --hold 2 -t "v115@9gB8EeF8DeG8CeF8DeC8JeAgH" -p "I,*p5" -a "-K kicks\jstris180.properties -d 180"
+```
+
+```bash
+./multihold --sf path/to/sfinder.jar -c path --hold 2 -t 'v115@9gB8EeF8DeG8CeF8DeC8JeAgH' -p 'I,*p5' -a '-K kicks/jstris180.properties -d 180'
+```
+
 ## Options
 
   `-h,--help` - Print this help message and exit  
