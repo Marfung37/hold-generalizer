@@ -132,12 +132,14 @@ void CreateFile::readdPieceSuffixes(){
     
     for(SfinderFile::columns& line: sfinderFile.fileData) {
         std::vector<std::string>& suffixes = suffixesMap.at(line.queue);
-        line.queue += suffixes.back();
+        std::string thisSuffix = suffixes.back();
+        line.queue += thisSuffix;
 
         if(args.command == "path"){
             // add to saves if there is a solve
             if(line.worked){
-                line.piecesSaved = suffixes.back();
+                std::sort(thisSuffix.begin(), thisSuffix.end(), tetrisSortOrder);
+                line.piecesSaved = thisSuffix;
             }
         }
 

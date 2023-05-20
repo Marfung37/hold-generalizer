@@ -21,3 +21,11 @@ Mac/Linux `./multihold [options]`
   `--mp,--manual-permutate`     - permutated patterns has been already created  
   `--of,--output-file`  [output/multihold_{command}.csv] - output filepath of command  
   `-a,--additional`         - other sfinder options to include in command  
+
+## Additional Notes
+
+The ability to hold allows for the usage of more pieces than the normal ability to use 11 pieces with hold 1.  
+![Image of PCO hold I setup](images/PCOHoldI.png)  
+For example, PCO hold I setup usually would be ran with `I,*p4` with 1-hold. However, in 2-hold, it could be ran with `I,*p5` to maximize chances with looking at the 12th piece of 1st PC.  
+
+Make sure to determine if adding pieces is reasonable when running the command, including considering if adding pieces would go beyond the numbers of pieces able to be seen.

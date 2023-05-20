@@ -32,6 +32,21 @@ class CreateFile{
         unsigned int workedCount;
         unsigned int totalCount;
 
+        struct
+        {
+            bool operator()(char a, char b) const { 
+                std::string BAG = "TILJSZO";
+                for(char& piece: BAG){
+                    if(a == piece){
+                        return true;
+                    } else if(b == piece){
+                        return false;
+                    }
+                }
+                // bad input
+                return false;
+            }
+        } tetrisSortOrder;
 };
 
 #endif
