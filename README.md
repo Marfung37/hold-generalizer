@@ -28,8 +28,8 @@ Example:
   `--ppp,--patterms-permutated-path` [input/patternsPermutated.txt] - file path to patterns permutated file  
   `-t,--tetfu`              - fumen(s) for sfinder command  
   `-p,--patterns`           - pieces for sfinder command  
-  `--mp,--manual-permutate`     - permutated patterns has been already created
-  `--cycle`             - permutating by cycling the holds rather than allowing swapping with any held pieces
+  `--mp,--manual-permutate`     - permutated patterns has been already created  
+  `--cycle`             - permutating by cycling the holds rather than allowing swapping with any held pieces  
   `--of,--output-file`  [output/multihold_{command}.csv] - output filepath of command  
   `-a,--additional`         - other sfinder options to include in command  
 
