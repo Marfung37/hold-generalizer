@@ -7,7 +7,7 @@ void HoldGenerator::generatePermutations(){
     std::string currQueue = this->queue;
     permutations.clear();
 
-    permutationHelper(currQueue);
+    permutationHelper(currQueue, "");
 }
 
 void HoldGenerator::generateInversePermutations(){
@@ -54,6 +54,9 @@ void HoldGenerator::permutationHelper(std::string queue, std::string prefix, boo
 
     for(unsigned int offset = 0; offset < shiftedHold; offset++){
         permutationHelper(queue.substr(0, offset) + queue.substr(offset + 1), prefix + queue.at(offset), reverse);
+        if(offset == cycle - 1){
+            offset = this->hold - 1;
+        }
     }
 }
 
@@ -79,6 +82,9 @@ bool HoldGenerator::permutationContainsHelper(std::string queue, std::string giv
                 foundMatch = true;
                 break;
             }
+        }
+        if(offset == cycle - 1){
+            offset = this->hold - 1;
         }
     }
 

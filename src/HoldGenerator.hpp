@@ -6,8 +6,9 @@
 
 class HoldGenerator{
     public:
-        HoldGenerator() : queue(""), hold(0), permutations{} {}
-        HoldGenerator(std::string queue, unsigned int hold) : queue(queue), hold(hold), permutations{} {}
+        HoldGenerator() : queue(""), hold(0), cycle(-1), permutations{} {}
+        HoldGenerator(std::string queue, unsigned int hold) : queue(queue), hold(hold), cycle(-1), permutations{} {}
+        HoldGenerator(std::string queue, unsigned int hold, unsigned int cycle) : queue(queue), hold(hold), cycle(cycle), permutations{} {}
         
         void generatePermutations();
         void generateInversePermutations();
@@ -27,6 +28,7 @@ class HoldGenerator{
 
         std::string queue;
         unsigned int hold;
+        unsigned int cycle;
         std::unordered_set<std::string> permutations;
 
 };

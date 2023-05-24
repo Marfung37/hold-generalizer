@@ -17,6 +17,7 @@ CLIParser::CLIParser() : app{"Create n-hold files from no hold file"}, args{}{
     args.tetfu = "";
     args.patterns = "";
     args.manualPermutate = false;
+    args.cyclePermutate = 10;
     args.additionalSfinderOptions = "";
 
     setupParser();
@@ -48,6 +49,9 @@ void CLIParser::setupParser(){
     app.add_option("-t, --tetfu", args.tetfu, "fumen(s) for sfinder command");
     app.add_option("-p, --patterns", args.patterns, "pieces for sfinder command");
     app.add_flag("--mp, --manual-permutate", args.manualPermutate, "permutated patterns has been already created");
+    app.add_option("--cycle", args.cyclePermutate, "permutating by cycling the holds rather than allowing swapping with any held pieces")
+        ->check(CLI::Range(1,10))
+        ->default_val(args.cyclePermutate);
     app.add_option("--of, --output-file", args.filepath, "output filepath of command")
         ->default_str((fs::path("output") / "multihold_{command}.csv").string());
     app.add_option("-a, --additional", args.additionalSfinderOptions, "other sfinder options to include in command");
