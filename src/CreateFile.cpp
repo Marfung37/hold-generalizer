@@ -13,7 +13,7 @@
 
 namespace fs = std::filesystem;
 
-CreateFile::CreateFile(CLIParser::values args) : args(args), sfinderFile(args.filepath.string(), args.command), workedCount(0), totalCount(0){}
+CreateFile::CreateFile(CLIParser::values args) : args(args), sfinderFile(args.filepath.string(), args.command), workedCount(0), totalCount(0), tetrisSortOrder() {}
 
 void CreateFile::createFile(){
     std::string commandStr = generateCommand();
@@ -90,7 +90,7 @@ std::string CreateFile::generateCommand(){
 }
 
 void CreateFile::applyHoldPermutationOnPatternsFile(){
-    HoldGenerator queuesGen("", args.hold);
+    HoldGenerator queuesGen("", args.hold, args.cyclePermutate);
     std::ifstream inPatternsStream(args.patternsFile.string());
     std::unordered_set<std::string> holdPermutationQueues{};
     std::string queue;
@@ -183,7 +183,7 @@ SUFFIX_MAP CreateFile::getQueueSuffixes(unsigned int neededPieces){
 void CreateFile::applyHoldOnSfinderFile(){
     std::ifstream inPatternsStream(args.patternsFile.string());
     std::vector<SfinderFile::columns> filteredFileData;
-    HoldGenerator holdGen("", args.hold);
+    HoldGenerator holdGen("", args.hold, args.cyclePermutate);
     SfinderFile::columns columnData;
     std::string queue;
     

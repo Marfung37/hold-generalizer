@@ -22,6 +22,7 @@ class CLIParser{
             std::string tetfu;
             std::string patterns;
             bool manualPermutate;
+            unsigned int cyclePermutate;
             std::string additionalSfinderOptions;
         };
 

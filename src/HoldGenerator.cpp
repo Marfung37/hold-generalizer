@@ -99,7 +99,6 @@ std::vector<std::string> HoldGenerator::permutationHelper(std::string queue, std
         if(offset == cycle - 1){
             offset = this->hold - 1;
         }
-
     }
     
     // add to memoization
