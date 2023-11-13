@@ -4,6 +4,13 @@
 
 #define IS_TRUE(x) { if (!(x)) std::cout << __FUNCTION__ << " failed on line " << __LINE__ << std::endl; }
 
+void print(std::unordered_set<std::string> const &s)
+{
+    for(auto const &i: s){
+        std::cout << i << ", ";
+    }
+}
+
 int main(){
     HoldGenerator queues("", 0);
 

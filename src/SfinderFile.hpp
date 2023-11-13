@@ -1,5 +1,4 @@
-#ifndef SFINDER_FILE
-#define SFINDER_FILE
+#pragma once
 
 #include <fstream>
 #include <string>
@@ -39,4 +38,3 @@ class SfinderFile{
         std::string headerLine;
 };
 
-#endif

@@ -1,5 +1,4 @@
-#ifndef CREATE_FILE
-#define CREATE_FILE
+#pragma once
 
 #include "../lib/CLI11.hpp"
 #include "CLIParser.hpp"
@@ -49,4 +48,3 @@ class CreateFile{
         } tetrisSortOrder;
 };
 
-#endif

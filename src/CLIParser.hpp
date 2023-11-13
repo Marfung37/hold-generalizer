@@ -1,5 +1,4 @@
-#ifndef CLI_PARSER
-#define CLI_PARSER
+#pragma once
 
 #include <string>
 #include <filesystem>
@@ -33,5 +32,3 @@ class CLIParser{
         void setupParser();
         
 };
-
-#endif

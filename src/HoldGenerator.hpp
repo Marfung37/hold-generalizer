@@ -1,13 +1,19 @@
-#ifndef GEN_HOLD_PERMUTATION
-#define GEN_HOLD_PERMUTATION
+#pragma once
+
 #include <vector>
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
 
 class HoldGenerator{
     public:
-        HoldGenerator() : queue(""), hold(0), permutations{} {}
-        HoldGenerator(std::string queue, unsigned int hold) : queue(queue), hold(hold), permutations{} {}
+        HoldGenerator() : queue(""), hold(0), cycle(-1), permutations{}, memoization{} {}
+        HoldGenerator(std::string queue, unsigned int hold) : queue(queue), hold(hold), cycle(-1), permutations{}, memoization{} {}
+        HoldGenerator(std::string queue, unsigned int hold, unsigned int cycle) : queue(queue), 
+                                                                                  hold(hold), 
+                                                                                  cycle(cycle), 
+                                                                                  permutations{}, 
+                                                                                  memoization{} {}
         
         void generatePermutations();
         void generateInversePermutations();
@@ -19,16 +25,21 @@ class HoldGenerator{
         void clearPermutations() {permutations.clear();}
 
         void setQueue(std::string queue) {this->queue = queue;}
-        void setHold(unsigned int hold) {this->hold = hold;}
+        void setHold(unsigned int hold) {
+            if(this->hold != hold){
+                this->hold = hold;
+                memoization.clear();
+            }
+        }
 
     private:
-        void permutationHelper(std::string queue, std::string prefix="", bool reverse=false);
+        std::vector<std::string> permutationHelper(std::string queue, std::string prefix="", bool reverse=false);
         bool permutationContainsHelper(std::string queue, std::string givenQueue);
 
         std::string queue;
         unsigned int hold;
+        unsigned int cycle;
         std::unordered_set<std::string> permutations;
-
+        std::unordered_map<std::string, std::vector<std::string>> memoization;
+        
 };
-
-#endif
